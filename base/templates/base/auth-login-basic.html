@@ -32,7 +32,7 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="{% static '/assets/vendor/fonts/boxicons.css' %}" />
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{% static '/assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
@@ -130,13 +130,13 @@
               <form id="formAuthentication" class="mb-3" method="POST">
                   {% csrf_token %}
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email or Username</label>
+                  <label for="email" class="form-label">Email</label>
                   <input
                     type="text"
                     class="form-control"
                     id="email"
                     name="email-username"
-                    placeholder="Enter your email or username"
+                    placeholder="Enter your email"
                     autofocus
                   />
                 </div>
@@ -207,7 +207,7 @@
     <!-- Vendors JS -->
 
     <!-- Main JS -->
-    <script src="{% static '' %}/assets/js/main.js"></script>
+    <script src="{% static '/assets/js/main.js' %}"></script>
 
     <!-- Page JS -->
 
