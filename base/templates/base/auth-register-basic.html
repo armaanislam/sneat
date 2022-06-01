@@ -1,5 +1,4 @@
-{% extends 'main.html' %}
-{% block content %}
+
 {% load static %}
 <!DOCTYPE html>
 
@@ -132,6 +131,7 @@
 
                     <form id="formAuthentication" class="mb-3" method="POST">
                         {% csrf_token %}
+                        <span style="color: red">{% include 'navbar.html' %}</span>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input
@@ -220,4 +220,3 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>
-{% endblock %}
