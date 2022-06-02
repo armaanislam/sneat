@@ -11,11 +11,33 @@ from .forms import UserForm, MyUserCreationForm
 from .models import User
 
 
-@login_required(login_url='auth-login-basic')
-def indexPage(request):
+def registerPage(request):
     user = User.objects.all()
-    context = {'user': user}
-    return render(request, 'base/index.html', context)
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+
+        try:
+            validate_email(email)
+            password = request.POST.get('password')
+            user = User.objects.filter(Q(username=username) | Q(email=email))
+            if user.exists():
+                messages.warning(request, 'Username or email already exists')
+            else:
+                user = User.objects.create_user(username, email, password)
+                user.save()
+                messages.success(request, 'Account created successfully!')
+                login(request, user)
+                return redirect('index')
+
+        except ValidationError:
+            messages.warning(request, 'Enter a valid email')
+
+    else:
+        messages.error(request, '')
+    context = {}
+    return render(request, 'base/auth-register-basic.html', context)
 
 
 def loginUser(request):
@@ -50,39 +72,30 @@ def logoutUser(request):
     return redirect('auth-login-basic')
 
 
-def registerPage(request):
-    user = User.objects.all()
-
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-
-        try:
-            validate_email(email)
-            password = request.POST.get('password')
-            user = User.objects.filter(Q(username=username) | Q(email=email))
-            if user.exists():
-                messages.warning(request, 'Username or email already exists')
-            else:
-                user = User.objects.create_user(username, email, password)
-                user.save()
-                messages.success(request, 'Account created successfully!')
-                login(request, user)
-                return redirect('index')
-
-        except ValidationError:
-            messages.warning(request, 'Enter a valid email')
-
-    else:
-        messages.error(request, '')
-    context = {}
-    return render(request, 'base/auth-register-basic.html', context)
-
-
-
 def forgotPassword(request):
 
     context = {}
     return render(request, 'base/auth-forgot-password-basic.html', context)
+
+
+@login_required(login_url='auth-login-basic')
+def indexPage(request):
+    user = User.objects.all()
+    context = {'user': user}
+    return render(request, 'base/index.html', context)
+
+
+@login_required(login_url='auth-login-basic')
+def accountTables(request):
+
+    context = {}
+    return render(request, 'base/account-tables.html', context)
+
+
+@login_required(login_url='auth-login-basic')
+def accountAdd(request):
+    context = {}
+    return render(request, 'base/account-add.html', context)
+
 
 
