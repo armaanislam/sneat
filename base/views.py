@@ -97,12 +97,25 @@ def accountTables(request):
 def accountAdd(request):
     form = UserForm()
     if request.method == 'POST':
-        form = UserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = User.objects.create_user(
+                username = request.POST.get('username'),
+                first_name = request.POST.get('firstname'),
+                last_name = request.POST.get('lastname'),
+                email = request.POST.get('email'),
+                password = request.POST.get('password'),
+                address = request.POST.get('address'),
+                phone_number = request.POST.get('phone_number'),
+                organization = request.POST.get('organization'),
+                country = request.POST.get('country'),
+                state = request.POST.get('state'),
+                zipcode = request.POST.get('language'),
+            )
+            user.save()
             return redirect('index')
         else:
             messages.error(request, 'An error has occured.')
+
     # user = User.objects.all()
     # if request.method == 'POST':
     #     username = request.POST.get('userName')
@@ -133,7 +146,6 @@ def accountAdd(request):
     #         language = language
     #     )
     #     user.save()
-    # return redirect('account-tables')
     context = {'form': form}
     return render(request, 'base/account-add.html', context)
 

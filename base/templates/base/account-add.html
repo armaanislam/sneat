@@ -17,7 +17,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
                             <img
-                                    src="../assets/img/avatars/1.png"
+                                    src="{% static '/assets/img/avatars/1.png' %}"
                                     alt="user-avatar"
                                     class="d-block rounded"
                                     height="100"
@@ -47,7 +47,7 @@
                     </div>
                     <hr class="my-0"/>
                     <div class="card-body">
-                        <form method="POST" action="" novalidate> {# id="formAccountSettings" onsubmit="return false" #}
+                        <form method="POST" action="" > {# id="formAccountSettings" onsubmit="return false" #}
                             {% csrf_token %}
                             <div class="row">
                                 <div class="mb-3 col-md-6">
