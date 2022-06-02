@@ -1,5 +1,4 @@
 from django.forms import ModelForm
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
 
@@ -11,4 +10,5 @@ class MyUserCreationForm(UserCreationForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = []
+        fields = '__all__'
+        exclude = ['profile_picture']

@@ -22,7 +22,7 @@ class User(AbstractUser):
         ("German", "German"),
         ("Portugese", "Portugese"),
     )
-    language = models.CharField(max_length=20, choices=LANGUAGE_CHOICES, default='English')
+    language = models.CharField(max_length=9, choices=LANGUAGE_CHOICES, default='English')
 
 
     USERNAME_FIELD = 'email'

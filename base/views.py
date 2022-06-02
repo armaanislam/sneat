@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-from .forms import UserForm, MyUserCreationForm
+from .forms import MyUserCreationForm, UserForm
 from .models import User
 
 
@@ -87,6 +87,7 @@ def indexPage(request):
 
 @login_required(login_url='auth-login-basic')
 def accountTables(request):
+    accounts = User.objects.all()
 
     context = {}
     return render(request, 'base/account-tables.html', context)
@@ -94,7 +95,46 @@ def accountTables(request):
 
 @login_required(login_url='auth-login-basic')
 def accountAdd(request):
-    context = {}
+    form = UserForm()
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        else:
+            messages.error(request, 'An error has occured.')
+    # user = User.objects.all()
+    # if request.method == 'POST':
+    #     username = request.POST.get('userName')
+    #     first_name = request.POST.get('firstName')
+    #     last_name = request.POST.get('lastName')
+    #     email = request.POST.get('email')
+    #     password = request.POST.get('password')
+    #     address = request.POST.get('address')
+    #     phone_number = request.POST.get('phoneNumber')
+    #     organization = request.POST.get('organization')
+    #     country = request.POST.get('country')
+    #     state = request.POST.get('state')
+    #     zipcode = request.POST.get('zipCode')
+    #     language = request.POST.get('language')
+    #
+    #     user = User.objects.create_user(
+    #         username = username,
+    #         first_name = first_name,
+    #         last_name = last_name,
+    #         email = email,
+    #         password = password,
+    #         address = address,
+    #         phone_number = phone_number,
+    #         organization = organization,
+    #         country = country,
+    #         state = state,
+    #         zipcode = zipcode,
+    #         language = language
+    #     )
+    #     user.save()
+    # return redirect('account-tables')
+    context = {'form': form}
     return render(request, 'base/account-add.html', context)
 
 
