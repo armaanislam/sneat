@@ -140,7 +140,7 @@
                                     </select>
                                 </div>
                                 <div class="mb-3 col-md-6">
-                                    <label for="language" class="form-label">Language</label>
+                                    <label for="language" class="form-label">{{ form.language.label }}</label>
                                     <select name="{{ form.country.html_name }}" id="{{ form.language.id_for_label }}" value="{{ form.language.value }}" class="select2 form-select">
                                         {% for widget in form.language.subwidgets %}
                                             {{ widget }}

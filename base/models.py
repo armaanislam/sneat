@@ -15,13 +15,14 @@ class User(AbstractUser):
     country = CountryField(null=True)
     state = models.CharField(max_length=255, null=True)
     zipcode = models.CharField(max_length=255, null=True)
-    LANGUAGE_CHOICES = (
-        ("English", "English"),
-        ("French", "French"),
-        ("German", "German"),
-        ("Portugese", "Portugese"),
-    )
-    language = models.CharField(max_length=9, choices=LANGUAGE_CHOICES, default='English')
+
+    class Languge(models.IntegerChoices):
+        English = 1, "English"
+        French = 2, "French"
+        German = 3, "German"
+        Portugese = 4, "Portugese"
+
+    language = models.PositiveSmallIntegerField(choices=Languge.choices, default=Languge.English, null=True)
 
 
     USERNAME_FIELD = 'email'

@@ -133,29 +133,29 @@
                         {% csrf_token %}
                         <span style="color: red">{% include 'navbar.html' %}</span>
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="{{ form.username.if_for_label }}" class="form-label">{{ form.username.label }}</label>
                             <input
                                     type="text"
                                     class="form-control"
-                                    id="username"
-                                    name="username"
+                                    id="{{ form.username.if_for_label }}"
+                                    name="{{ form.username.html_name }}"
                                     placeholder="Enter your username"
                                     autofocus
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email"
+                            <label for="{{ form.email.if_for_label }}" class="form-label">{{ form.email.label }}</label>
+                            <input type="text" class="form-control" id="{{ form.email.if_for_label }}" name="{{ form.email.html_name }}"
                                    placeholder="Enter your email"/>
                         </div>
                         <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="password">Password</label>
+                            <label class="form-label" for="{{ form.password.if_for_label }}">{{ form.password.label }}</label>
                             <div class="input-group input-group-merge">
                                 <input
                                         type="password"
-                                        id="password"
+                                        id="{{ form.password.if_for_label }}"
                                         class="form-control"
-                                        name="password"
+                                        name="{{ form.password.html_name }}"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password"
                                 />

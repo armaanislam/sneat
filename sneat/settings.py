@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base',
     'django_countries',
-    'languages',
 ]
 
 AUTH_USER_MODEL = 'base.User'
