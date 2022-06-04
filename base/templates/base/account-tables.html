@@ -6,7 +6,9 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Account Lists <span style="float: right"><a href="{% url 'account-add' %}" class="btn btn-secondary" role="button">Add Account</a></span></h4>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Account Lists <span
+                    style="float: right"><a href="{% url 'account-add' %}" class="btn btn-secondary" role="button">Add Account</a></span>
+            </h4>
             <!-- Responsive Table -->
             <div class="card">
                 <h5 class="card-header">Responsive Table</h5>
@@ -15,54 +17,36 @@
                         <thead>
                         <tr class="text-nowrap">
                             <th>#</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
-                            <th>Table heading</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th>Organization</th>
+                            <th>Country</th>
+                            <th>State</th>
+                            <th>Zip Code</th>
+                            <th>Language</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                            <td>Table cell</td>
-                        </tr>
+                        {% for list in lists %}
+                            <tr>
+                                <th scope="row">{{ list.id }}</th>
+                                <td>{{ list.username }}</td>
+                                <td>{{ list.first_name }}</td>
+                                <td>{{ list.last_name }}</td>
+                                <td>{{ list.email }}</td>
+                                <td>{{ list.address }}</td>
+                                <td>{{ list.phone_number }}</td>
+                                <td>{{ list.organization }}</td>
+                                <td>{{ list.country }}</td>
+                                <td>{{ list.state }}</td>
+                                <td>{{ list.zipcode }}</td>
+                                <td>{{ list.language }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>

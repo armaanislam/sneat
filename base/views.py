@@ -92,15 +92,14 @@ def indexPage(request):
 
 @login_required(login_url='auth-login-basic')
 def accountTables(request):
-    accounts = User.objects.all()
+    lists = User.objects.all()
 
-    context = {}
+    context = {'lists': lists}
     return render(request, 'base/account-tables.html', context)
 
 
 @login_required(login_url='auth-login-basic')
 def accountAdd(request):
-    user = User.objects.all()
     form = MyUserCreationForm()
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -111,8 +110,8 @@ def accountAdd(request):
             if user.exists():
                 messages.warning(request, 'Username or email already exists')
             else:
-                first_name = request.POST.get('firstname')
-                last_name = request.POST.get('lastname')
+                first_name = request.POST.get('first_name')
+                last_name = request.POST.get('last_name')
                 address = request.POST.get('address')
                 phone_number = request.POST.get('phone_number')
                 organization = request.POST.get('organization')
@@ -121,9 +120,11 @@ def accountAdd(request):
                 zipcode = request.POST.get('zipcode')
                 language = request.POST.get('language')
 
-                user = User.objects.create( #abstract user wont create anything if we dont validate email #create_user only takes 2-4 positional arguments, so using create()
+                user = User.objects.create(
                     username = username,
                     email = email,
+                    first_name = first_name,
+                    last_name = last_name,
                     address = address,
                     phone_number = phone_number,
                     organization = organization,
@@ -140,7 +141,7 @@ def accountAdd(request):
     else:
         messages.error(request, 'An error has occured.')
 
-    context = {'form': form, 'user': user}
+    context = {'form': form}
     return render(request, 'base/account-add.html', context)
 
 

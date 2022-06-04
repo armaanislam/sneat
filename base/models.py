@@ -22,7 +22,7 @@ class User(AbstractUser):
         German = 3, "German"
         Portugese = 4, "Portugese"
 
-    language = models.PositiveSmallIntegerField(choices=Languge.choices, default=Languge.English, null=True)
+    language = models.PositiveSmallIntegerField(null=True, choices=Languge.choices, default=Languge.English)
 
 
     USERNAME_FIELD = 'email'
