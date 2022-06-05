@@ -19,16 +19,16 @@ def loginUser(request):
         return redirect('index')
 
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
 
         try:
-            user = User.objects.filter(email=email)
+            user = User.objects.filter(username=username)
 
         except:
             messages.warning(request, 'User does not exists.')
 
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             messages.success(request, 'Successfully logged in!')
@@ -58,9 +58,10 @@ def registerPage(request):
         try:
             validate_email(email)
             password = request.POST.get('password')
-            user = User.objects.filter(Q(username=username) | Q(email=email))
+            user = User.objects.filter(username=username)
+            #user = User.objects.filter(Q(username=username) | Q(email=email))
             if user.exists():
-                messages.warning(request, 'Username or email already exists')
+                messages.warning(request, 'Username already exists')
             else:
                 user = User.objects.create_user(username, email, password)
                 user.save()
@@ -106,19 +107,20 @@ def accountAdd(request):
         email = request.POST.get('email')
         try:
             validate_email(email)
-            user = User.objects.filter(Q(username=username) | Q(email=email))
+            user = User.objects.filter(username=username)
+            #user = User.objects.filter(Q(username=username) | Q(email=email))
             if user.exists():
-                messages.warning(request, 'Username or email already exists')
+                messages.warning(request, 'Username already exists')
             else:
                 first_name = request.POST.get('first_name')
                 last_name = request.POST.get('last_name')
                 address = request.POST.get('address')
                 phone_number = request.POST.get('phone_number')
                 organization = request.POST.get('organization')
-                country = request.POST.get('country')
+                #country = request.POST.get('country')
                 state = request.POST.get('state')
                 zipcode = request.POST.get('zipcode')
-                language = request.POST.get('language')
+                #language = request.POST.get('language')
 
                 user = User.objects.create(
                     username = username,
@@ -128,10 +130,10 @@ def accountAdd(request):
                     address = address,
                     phone_number = phone_number,
                     organization = organization,
-                    country = country,
+                    #country = country,
                     state = state,
                     zipcode = zipcode,
-                    language = language,
+                    #language = language,
                 )
                 user.save()
                 return redirect('account-tables')
