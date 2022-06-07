@@ -12,7 +12,11 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('auth-forgot-password/', views.forgotPassword, name='auth-forgot-password'),
 
-    #Account, account-settings
+    #Account-Table, Account Change Password, Account-CRUD operation
     path('account-tables/', views.accountTables, name='account-tables'),
     path('account-add/', views.accountAdd, name='account-add'),
+    path('account-change-password/<str:pk>/', views.accountChangePassword, name='account-change-password'),
+    path('account-edit/<str:pk>/', views.accountEdit, name='account-edit'),
+    path('account-delete/<str:pk>/', views.accountDelete, name='account-delete'),
+
 ]

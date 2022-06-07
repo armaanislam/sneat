@@ -1,7 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
 {% block content %}
-
     <!-- Content wrapper -->
     <div class="content-wrapper">
         <!-- Content -->
@@ -9,6 +8,12 @@
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Account Lists <span
                     style="float: right"><a href="{% url 'account-add' %}" class="btn btn-secondary" role="button">Add Account</a></span>
             </h4>
+            {% for msg in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    {{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
             <!-- Responsive Table -->
             <div class="card">
                 <h5 class="card-header">Responsive Table</h5>
@@ -24,10 +29,9 @@
                             <th>Address</th>
                             <th>Phone Number</th>
                             <th>Organization</th>
-                            <th>Country</th>
                             <th>State</th>
                             <th>Zip Code</th>
-                            <th>Language</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,10 +45,31 @@
                                 <td>{{ list.address }}</td>
                                 <td>{{ list.phone_number }}</td>
                                 <td>{{ list.organization }}</td>
-                                <td>{{ list.country }}</td>
                                 <td>{{ list.state }}</td>
                                 <td>{{ list.zipcode }}</td>
-                                <td>{{ list.language }}</td>
+                                <td>
+                                    <a href="{% url 'account-change-password' list.id %}">
+                                        <button class="btn btn-primary btn-sm rounded" type="button"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Change_Password">Change Password
+                                        </button>
+                                    </a>
+                                    &nbsp
+                                    <a href="{% url 'account-edit' list.id %}">
+                                        <button class="btn btn-success btn-sm rounded" type="button"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Edit">Edit
+                                        </button>
+                                    </a>
+                                    &nbsp
+                                    <a href="{% url 'account-delete' list.id %}">
+                                        <button class="btn btn-danger btn-sm rounded" type="button"
+                                                data-toggle="tooltip"
+                                                data-placement="top" title="Delete">Delete
+                                        </button>
+                                    </a>
+                                </td>
+                                <td></td>
                             </tr>
                         {% endfor %}
                         </tbody>

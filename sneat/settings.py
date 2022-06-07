@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base',
-    'django_countries',
-    # 'languages_plus',
+    #'django_countries',
+    #'languages_plus',
 ]
 
 AUTH_USER_MODEL = 'base.User'

@@ -1,0 +1,86 @@
+{% extends 'main.html' %}
+{% load static %}
+{#{% load countries %}#}
+{% block content %}
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{#Account Settings /#}</span> Add an Account
+        </h4>
+        {% include 'navbar.html' %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Profile Details</h5>
+                    <!-- Account -->
+                    <div class="card-body">
+                        <div class="d-flex align-items-start align-items-sm-center gap-4">
+                            <img
+                                    src="{% static '/assets/img/avatars/1.png' %}"
+                                    alt="user-avatar"
+                                    class="d-block rounded"
+                                    height="100"
+                                    width="100"
+                                    id="uploadedAvatar"
+                            />
+                            <div class="button-wrapper">
+                                <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                    <span class="d-none d-sm-block">Upload new photo</span>
+                                    <i class="bx bx-upload d-block d-sm-none"></i>
+                                    <input
+                                            type="file"
+                                            id="upload"
+                                            class="account-file-input"
+                                            hidden
+                                            accept="image/png, image/jpeg"
+                                    />
+                                </label>
+                                <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                                    <i class="bx bx-reset d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Reset</span>
+                                </button>
+
+                                <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-0"/>
+                    <div class="card-body">
+                        <form method="POST" action=""> {# id="formAccountSettings" onsubmit="return false" #}
+                            {% csrf_token %}
+                            <div class="mt-2">
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <span style="font-size: x-large">CAUTION!!!</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                                <p><h6><b>DO YOU WANT TO DELTE THE FOLLOWING ACCOUNT?</b></h6></p>
+                                <p><b>{{ form.username.label }} :</b> {{ form.username.value }}</p>
+                                <p><b>{{ form.first_name.label }} :</b> {{ form.first_name.value }}</p>
+                                <p><b>{{ form.last_name.label }} :</b> {{ form.last_name.value }}</p>
+                                <p><b>{{ form.email.label }} :</b> {{ form.email.value }}</p>
+                                <p><b>{{ form.address.label }} :</b> {{ form.address.value }}</p>
+                                <p><b>{{ form.phone_number.label }} :</b> {{ form.phone_number.value }}</p>
+                                <p><b>{{ form.organization.label }} :</b> {{ form.organization.value }}</p>
+                                <p><b>{{ form.state.label }} :</b> {{ form.state.value }}</p>
+                                <p><b>{{ form.zipcode.label }} :</b> {{ form.zipcode.value }}</p>
+                                <button class="btn btn-outline-danger" type="submit" data-toggle="tooltip"
+                                        data-placement="top" title="Delete">Delete
+                                </button>
+                                <a href="{% url 'account-tables' %}">
+                                    <button type="button" class="btn btn-outline-secondary" data-toggle="tooltip"
+                                            data-placement="top" title="Cancel">Cancel
+                                    </button>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /Account -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+{% endblock %}

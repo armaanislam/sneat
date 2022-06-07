@@ -11,6 +11,7 @@ from .forms import MyUserCreationForm
 from .models import User
 
 
+
 def loginUser(request):
 
     form = MyUserCreationForm()
@@ -35,16 +36,18 @@ def loginUser(request):
             login(request, user)
             return redirect('index')
         else:
-            messages.warning(request, 'The email or password is incorrect.')
+            messages.warning(request, 'The username or password is incorrect.')
 
     context = {'form': form}
 
     return render(request, 'base/auth-login-basic.html', context)
 
 
+
 def logoutUser(request):
     logout(request)
     return redirect('auth-login-basic')
+
 
 
 def registerPage(request):
@@ -58,8 +61,7 @@ def registerPage(request):
         try:
             validate_email(email)
             password = request.POST.get('password')
-            user = User.objects.filter(username=username)
-            #user = User.objects.filter(Q(username=username) | Q(email=email))
+            user = User.objects.filter(username__iexact=username)
             if user.exists():
                 messages.warning(request, 'Username already exists')
             else:
@@ -78,10 +80,12 @@ def registerPage(request):
     return render(request, 'base/auth-register-basic.html', context)
 
 
+
 def forgotPassword(request):
 
     context = {}
     return render(request, 'base/auth-forgot-password-basic.html', context)
+
 
 
 @login_required(login_url='auth-login-basic')
@@ -89,6 +93,7 @@ def indexPage(request):
     user = User.objects.all()
     context = {'user': user}
     return render(request, 'base/index.html', context)
+
 
 
 @login_required(login_url='auth-login-basic')
@@ -99,6 +104,7 @@ def accountTables(request):
     return render(request, 'base/account-tables.html', context)
 
 
+
 @login_required(login_url='auth-login-basic')
 def accountAdd(request):
     form = MyUserCreationForm()
@@ -107,8 +113,7 @@ def accountAdd(request):
         email = request.POST.get('email')
         try:
             validate_email(email)
-            user = User.objects.filter(username=username)
-            #user = User.objects.filter(Q(username=username) | Q(email=email))
+            user = User.objects.filter(username__iexact=username)
             if user.exists():
                 messages.warning(request, 'Username already exists')
             else:
@@ -117,10 +122,8 @@ def accountAdd(request):
                 address = request.POST.get('address')
                 phone_number = request.POST.get('phone_number')
                 organization = request.POST.get('organization')
-                #country = request.POST.get('country')
                 state = request.POST.get('state')
                 zipcode = request.POST.get('zipcode')
-                #language = request.POST.get('language')
 
                 user = User.objects.create(
                     username = username,
@@ -130,21 +133,93 @@ def accountAdd(request):
                     address = address,
                     phone_number = phone_number,
                     organization = organization,
-                    #country = country,
                     state = state,
                     zipcode = zipcode,
-                    #language = language,
                 )
                 user.save()
+                messages.success(request, 'Account added successfully!')
                 return redirect('account-tables')
         except ValidationError:
             messages.warning(request, 'Enter a valid email')
 
     else:
-        messages.error(request, 'An error has occured.')
+        messages.error(request, '')
 
     context = {'form': form}
     return render(request, 'base/account-add.html', context)
 
 
 
+@login_required(login_url='auth-login-basic')
+def accountEdit(request, pk):
+    user = User.objects.get(id=pk)
+    form = MyUserCreationForm(instance=user)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        try:
+            validate_email(email)
+            if user.username == username:
+                user.email = email
+                user.first_name = request.POST.get('first_name')
+                user.last_name = request.POST.get('last_name')
+                user.address = request.POST.get('address')
+                user.phone_number = request.POST.get('phone_number')
+                user.organization = request.POST.get('organization')
+                user.state = request.POST.get('state')
+                user.zipcode = request.POST.get('zipcode')
+                user.save()
+                messages.success(request, 'Account edited successfully!')
+                return redirect('account-tables')
+            else:
+                user = User.objects.filter(username=username)
+                if user.exists():
+                    messages.warning(request, 'Username already exists')
+                else:
+                    user.username = username
+                    user.email = email
+                    user.first_name = request.POST.get('first_name')
+                    user.last_name = request.POST.get('last_name')
+                    user.address = request.POST.get('address')
+                    user.phone_number = request.POST.get('phone_number')
+                    user.organization = request.POST.get('organization')
+                    user.state = request.POST.get('state')
+                    user.zipcode = request.POST.get('zipcode')
+                    user.save()
+                    messages.success(request, 'Account edited successfully!')
+                    return redirect('account-tables')
+
+        except ValidationError:
+            messages.warning(request, 'Enter a valid email')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form, 'user': user}
+    return render(request, 'base/account-edit.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def accountDelete(request, pk):
+    user = User.objects.get(id=pk)
+    form = MyUserCreationForm(instance=user)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, 'Account deleted successfully!')
+        return redirect('account-tables')
+    context = {'object': user, 'form': form}
+    return render(request, 'base/account-delete.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def accountChangePassword(request, pk):
+    user = User.objects.get(id=pk)
+    form = MyUserCreationForm(instance=user)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, 'Account deleted successfully!')
+        return redirect('account-tables')
+    context = {'object': user, 'form': form}
+    return render(request, 'base/account-change-password.html', context)
