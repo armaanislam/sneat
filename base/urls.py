@@ -16,6 +16,7 @@ urlpatterns = [
     path('account-tables/', views.accountTables, name='account-tables'),
     path('account-add/', views.accountAdd, name='account-add'),
     path('account-change-password/<str:pk>/', views.accountChangePassword, name='account-change-password'),
+    path('account-change-password-admin/<str:pk>/', views.accountChangePasswordAdmin, name='account-change-password-admin'),
     path('account-edit/<str:pk>/', views.accountEdit, name='account-edit'),
     path('account-delete/<str:pk>/', views.accountDelete, name='account-delete'),
 

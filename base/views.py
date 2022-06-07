@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.hashers import check_password
 from .forms import MyUserCreationForm
 from .models import User
 
@@ -216,10 +218,45 @@ def accountDelete(request, pk):
 @login_required(login_url='auth-login-basic')
 def accountChangePassword(request, pk):
     user = User.objects.get(id=pk)
-    form = MyUserCreationForm(instance=user)
+    current_password = user.password
+
     if request.method == 'POST':
-        user.delete()
-        messages.success(request, 'Account deleted successfully!')
-        return redirect('account-tables')
-    context = {'object': user, 'form': form}
+        old_password = request.POST.get('old_password')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        matchcheck =  check_password(old_password, current_password)
+
+        if matchcheck != True:
+            messages.error(request, 'Old password incorrect')
+        elif new_password1 != new_password2:
+            messages.error(request, 'Passwords do not match')
+        else:
+            user.set_password(new_password1)
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password updated successfully!')
+            return redirect('account-tables')
+    context = {'user': user}
     return render(request, 'base/account-change-password.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def accountChangePasswordAdmin(request, pk):
+    user = User.objects.get(id=pk)
+
+    if request.method == 'POST':
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        if new_password1 != new_password2:
+            messages.error(request, 'Passwords do not match')
+        else:
+            user.set_password(new_password1)
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password updated successfully!')
+            return redirect('account-tables')
+    context = {'user': user}
+    return render(request, 'base/account-change-password-admin.html', context)
