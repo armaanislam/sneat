@@ -1,4 +1,5 @@
 from django.urls import path
+# from django.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -6,11 +7,13 @@ urlpatterns = [
     #Index page
     path('index/', views.indexPage, name='index'),
 
-    #Register, Login, Logout, ForgotPassword
+    #Register, Login, Logout, ForgotPassword, ChangePassword
     path('auth-register-basic/', views.registerPage, name='auth-register-basic'),
     path('', views.loginUser, name='auth-login-basic'),
     path('logout/', views.logoutUser, name='logout'),
     path('auth-forgot-password/', views.forgotPassword, name='auth-forgot-password'),
+    # path('change-password/', auth_views.PasswordResetView.as_view())
+    path('change-password/<token>/', views.changePassword, name='change-password'),
 
     #Account-Table, Account Change Password, Account-CRUD operation
     path('account-tables/', views.accountTables, name='account-tables'),

@@ -11,6 +11,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from .forms import MyUserCreationForm
 from .models import User
+from .helpers import send_forgot_password_mail
+import uuid
 
 
 
@@ -83,7 +85,47 @@ def registerPage(request):
 
 
 
+def changePassword(request, token):
+
+    try:
+        user = User.objects.filter(forget_password_token=token).first()
+        print(user)
+    except Exception as e:
+        print(e)
+
+    context = {'user_id': user.id}
+    return render(request, 'base/change-password.html', context)
+
+
+
 def forgotPassword(request):
+
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+
+            user = User.objects.get(username=username)
+
+            if user:
+                user = User.objects.get(username=username)
+                token = str(uuid.uuid4())
+                user.forget_password_token = token
+                user.save()
+                mail = send_forgot_password_mail(user.email, token)
+                print(mail)
+                messages.success(request, 'An email has been sent!')
+                print('test2')
+                return redirect('auth-forgot-password')
+
+            else:
+                print('test1')
+                messages.error(request, 'No username found with this username')
+                return redirect('auth-forgot-password')
+
+
+
+    except Exception as e:
+        print(e)
 
     context = {}
     return render(request, 'base/auth-forgot-password-basic.html', context)
