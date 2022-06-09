@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'sneat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sneat',
+        'NAME': 'sneatnew',
         'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': 'djangofrango',

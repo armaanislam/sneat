@@ -207,37 +207,27 @@ def accountEdit(request, pk):
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
-        password = request.POST.get('password')
-        password_confirmation = request.POST.get('password_confirmation')
         try:
             validate_email(email)
             if user.username == username:
-                if password != password_confirmation:
-                    messages.error(request, 'Passwords do not match')
-                else:
-                    user.email = email
-                    user.set_password(password_confirmation)
-                    user.first_name = request.POST.get('first_name')
-                    user.last_name = request.POST.get('last_name')
-                    user.address = request.POST.get('address')
-                    user.phone_number = request.POST.get('phone_number')
-                    user.organization = request.POST.get('organization')
-                    user.state = request.POST.get('state')
-                    user.zipcode = request.POST.get('zipcode')
-                    user.save()
-                    update_session_auth_hash(request, user)
-                    messages.success(request, 'Account edited successfully!')
-                    return redirect('account-tables')
+                user.email = email
+                user.first_name = request.POST.get('first_name')
+                user.last_name = request.POST.get('last_name')
+                user.address = request.POST.get('address')
+                user.phone_number = request.POST.get('phone_number')
+                user.organization = request.POST.get('organization')
+                user.state = request.POST.get('state')
+                user.zipcode = request.POST.get('zipcode')
+                user.save()
+                messages.success(request, 'Account edited successfully!')
+                return redirect('account-tables')
             else:
                 user = User.objects.filter(username=username)
                 if user.exists():
                     messages.warning(request, 'Username already exists')
-                elif password != password_confirmation:
-                    messages.error(request, 'Passwords do not match')
                 else:
                     user.username = username
                     user.email = email
-                    user.set_password(password_confirmation)
                     user.first_name = request.POST.get('first_name')
                     user.last_name = request.POST.get('last_name')
                     user.address = request.POST.get('address')
@@ -246,7 +236,6 @@ def accountEdit(request, pk):
                     user.state = request.POST.get('state')
                     user.zipcode = request.POST.get('zipcode')
                     user.save()
-                    update_session_auth_hash(request, user)
                     messages.success(request, 'Account edited successfully!')
                     return redirect('account-tables')
 

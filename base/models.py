@@ -16,11 +16,11 @@ class User(AbstractUser):
     state = models.CharField(max_length=255, null=True)
     zipcode = models.CharField(max_length=255, null=True)
     group = models.CharField(max_length=50,blank=True, null=True )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at', '-updated_at']
+        ordering = ['-created_date', '-updated_date']
 
     def __str__(self):
         return self.username
@@ -57,10 +57,19 @@ class ReviewRating(models.Model):
 
 
 
+class Supervisor(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+
 class Employee(models.Model):
     name = models.CharField(max_length=255)
     employee_id = models.PositiveIntegerField(primary_key=True)
     designation = models.CharField(max_length=255, null=True)
+    supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE, null=True)
     sbu = models.ForeignKey('SBU', on_delete=models.CASCADE, null=True)
     sub_sbu = models.ForeignKey('SubSBU', on_delete=models.CASCADE, null=True)
     date_of_joining = models.DateTimeField(auto_now_add=True, null=True)
@@ -121,3 +130,16 @@ class KPIObjective(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class Log(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    component = models.CharField(max_length=30)
+    login_date = models.DateTimeField(null=True)
+    logout_date = models.DateTimeField(null=True)
+    date_time = models.DateTimeField()
+    ip = models.GenericIPAddressField()
+
+    class Meta:
+        db_table = 'logger'
