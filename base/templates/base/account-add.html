@@ -81,6 +81,30 @@
                                     />
                                 </div>
                                 <div class="mb-3 col-md-6">
+                                    <label for="{{ form.password.id_for_label }}"
+                                           class="form-label">{{ form.password.label }}</label>
+                                    <input
+                                            class="form-control"
+                                            type="password"
+                                            id="{{ form.password.id_for_label }}"
+                                            name="{{ form.password.html_name }}"
+                                            value=""
+                                            placeholder=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for=""
+                                           class="form-label">CONFIRM PASSWORD</label>
+                                    <input
+                                            class="form-control"
+                                            type="password"
+                                            id="password_confirmation_id"
+                                            name="password_confirmation"
+                                            value=""
+                                            placeholder=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
                                     <label for="{{ form.first_name.id_for_label }}"
                                            class="form-label">{{ form.first_name.label }}</label>
                                     <input
@@ -149,7 +173,28 @@
                                             maxlength="6"
                                     />
                                 </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.group.id_for_label }}"
+                                           class="form-label">{{ form.group.label }}</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{{ form.group.id_for_label }}"
+                                            name="{{ form.group.html_name }}"
+                                            placeholder=""
+                                            maxlength=""
+                                    />
+                                </div>
                             </div>
+{#                            <div class="mb-3 col-md-6">#}
+{#                                <label for="language" class="form-label">ROLE</label>#}
+{#                                <select name="{{ form.group.html_name }}" id="{{ form.group.id_for_label }}"#}
+{#                                        value="{{ form.group.value }}" class="select2 form-select">#}
+{#                                    {% for widget in form.role %}#}
+{#                                        {{ widget }}#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Save changes</button>
                                 <a href="{% url 'account-tables' %}">

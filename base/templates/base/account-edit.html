@@ -9,7 +9,12 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{#Account Settings /#}</span> Add an Account
         </h4>
-        {% include 'navbar.html' %}
+        {% for msg in messages %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
@@ -73,6 +78,30 @@
                                             id="{{ form.email.id_for_label }}"
                                             name="{{ form.email.html_name }}"
                                             value="{{ form.email.value }}"
+                                            placeholder=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.password.id_for_label }}"
+                                           class="form-label">{{ form.password.label }}</label>
+                                    <input
+                                            class="form-control"
+                                            type="password"
+                                            id="{{ form.password.id_for_label }}"
+                                            name="{{ form.password.html_name }}"
+                                            value=""
+                                            placeholder=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for=""
+                                           class="form-label">CONFIRM PASSWORD</label>
+                                    <input
+                                            class="form-control"
+                                            type="password"
+                                            id="password_confirmation_id"
+                                            name="password_confirmation"
+                                            value=""
                                             placeholder=""
                                     />
                                 </div>
@@ -152,7 +181,9 @@
                             </div>
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                                <a href="{% url 'account-tables' %}"><button type="button" class="btn btn-outline-secondary">Cancel</button></a>
+                                <a href="{% url 'account-tables' %}">
+                                    <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                </a>
                             </div>
                         </form>
                     </div>

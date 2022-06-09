@@ -15,7 +15,8 @@ class User(AbstractUser):
     organization = models.CharField(max_length=255, null=True)
     state = models.CharField(max_length=255, null=True)
     zipcode = models.CharField(max_length=255, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    group = models.CharField(max_length=50,blank=True, null=True )
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -44,16 +45,15 @@ class KPIConfig(models.Model):
 
 
 class ReviewRating(models.Model):
-    RATINGS = (
-        ("1. Exceeded.", "1. Exceeded."),
-        ("2. Achieved all aspects.", "2. Achieved all aspects."),
-        ("3. Achieved the essnential requirements.", "3. Achieved the essnential requirements."),
-        ("4. Did not achieve.", "4. Did not achieve."),
-    )
-    rating = models.CharField(max_length=255, blank=True, default='', choices=RATINGS)
+    name = models.CharField(max_length=255, null=True)
+    rating = models.IntegerField(null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_rating_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='review_rating_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
-        return self.rating
+        return self.name
 
 
 
@@ -65,6 +65,11 @@ class Employee(models.Model):
     sub_sbu = models.ForeignKey('SubSBU', on_delete=models.CASCADE, null=True)
     date_of_joining = models.DateTimeField(auto_now_add=True, null=True)
     basic_salary = models.FloatField(default=None, null=True)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -73,6 +78,10 @@ class Employee(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -81,6 +90,10 @@ class Project(models.Model):
 
 class SBU(models.Model):
     name = models.CharField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_sbu_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_sbu_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -89,6 +102,10 @@ class SBU(models.Model):
 
 class SubSBU(models.Model):
     name = models.CharField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_sub_sbu_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_sub_sbu_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -97,6 +114,10 @@ class SubSBU(models.Model):
 
 class KPIObjective(models.Model):
     name = models.CharField(max_length=255)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_objective_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_objective_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
