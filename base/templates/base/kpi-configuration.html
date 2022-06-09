@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+        <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Employee Table <span
+                    style="float: right"><a href="{% url 'account-add' %}" class="btn btn-secondary" role="button">Add Account</a></span>
+            </h4>
+            {% for msg in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    {{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+            <!-- Responsive Table -->
+            <div class="card">
+                <h5 class="card-header">Responsive Table</h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                        <tr class="text-nowrap">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Rating</th>
+                            <th>Year</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for list in lists %}
+                            <tr>
+                                <th scope="row">{{ list.id }}</th>
+                                <td>{{ list.name }}</td>
+                                <td>{{ list.rating.rating }}</td>
+                                <td>{{ list.year }}</td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--/ Responsive Table -->
+        </div>
+        <!-- / Content -->
+{% endblock %}

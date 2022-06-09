@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
 from .forms import MyUserCreationForm
-from .models import User
+from .models import *
 from .helpers import send_forgot_password_mail
 import uuid
 
@@ -308,3 +308,75 @@ def accountChangePasswordAdmin(request, pk):
             return redirect('account-tables')
     context = {'user': user}
     return render(request, 'base/account-change-password-admin.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def employeeTables(request):
+    lists = Employee.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/employee-tables.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def kpiConfig(request):
+    lists = KPIConfig.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/kpi-configuration.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def project(request):
+    lists = Project.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/project.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def reviewRating(request):
+    lists = ReviewRating.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/review-rating.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def sbu(request):
+    lists = SBU.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/sbu.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def subSBU(request):
+    lists = SubSBU.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/sub-sbu.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def supervisor(request):
+    lists = Supervisor.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/supervisor.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def kpiObjective(request):
+    lists = KPIObjective.objects.all()
+
+    context = {'lists': lists}
+    return render(request, 'base/kpi-objective.html', context)

@@ -30,17 +30,16 @@ class User(AbstractUser):
 
 
 
-class KPIConfig(models.Model):
-    name = models.CharField(max_length=255)
-    rating = models.ForeignKey('ReviewRating', on_delete=models.CASCADE)
-    year = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_created_by')
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_updated_by')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField()
+class Log(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    component = models.CharField(max_length=30)
+    login_date = models.DateTimeField(null=True)
+    logout_date = models.DateTimeField(null=True)
+    date_time = models.DateTimeField()
+    ip = models.GenericIPAddressField()
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        db_table = 'logger'
 
 
 
@@ -57,28 +56,22 @@ class ReviewRating(models.Model):
 
 
 
-class Supervisor(models.Model):
+class KPIConfig(models.Model):
     name = models.CharField(max_length=255)
+    rating = models.ForeignKey(ReviewRating, on_delete=models.CASCADE)
+    year = models.DateField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='kpi_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
 
 
 
-class Employee(models.Model):
+class Supervisor(models.Model):
     name = models.CharField(max_length=255)
-    employee_id = models.PositiveIntegerField(primary_key=True)
-    designation = models.CharField(max_length=255, null=True)
-    supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE, null=True)
-    sbu = models.ForeignKey('SBU', on_delete=models.CASCADE, null=True)
-    sub_sbu = models.ForeignKey('SubSBU', on_delete=models.CASCADE, null=True)
-    date_of_joining = models.DateTimeField(auto_now_add=True, null=True)
-    basic_salary = models.FloatField(default=None, null=True)
-    project = models.ForeignKey('Project', on_delete=models.CASCADE, null=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_created_by')
-    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_updated_by')
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -133,13 +126,20 @@ class KPIObjective(models.Model):
 
 
 
-class Log(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    component = models.CharField(max_length=30)
-    login_date = models.DateTimeField(null=True)
-    logout_date = models.DateTimeField(null=True)
-    date_time = models.DateTimeField()
-    ip = models.GenericIPAddressField()
+class Employee(models.Model):
+    name = models.CharField(max_length=255)
+    employee_id = models.PositiveIntegerField(primary_key=True)
+    designation = models.CharField(max_length=255, null=True)
+    sbu = models.ForeignKey(SBU, on_delete=models.CASCADE, null=True)
+    sub_sbu = models.ForeignKey(SubSBU, on_delete=models.CASCADE, null=True)
+    date_of_joining = models.DateField(auto_now_add=True, null=True)
+    basic_salary = models.FloatField(default=None, null=True)
+    supervisor = models.ForeignKey(Supervisor, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_created_by')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employee_updated_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField()
 
-    class Meta:
-        db_table = 'logger'
+    def __str__(self):
+        return self.name

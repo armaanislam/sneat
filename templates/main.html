@@ -164,6 +164,55 @@
                         </li>
                     </ul>
                 </li>
+                <!-- Extended components -->
+                <li class="menu-item">
+                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-copy"></i>
+                        <div data-i18n="Extended UI">Configuration</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item">
+                            <a href="{% url 'employee-tables' %}" class="menu-link">
+                                <div data-i18n="Perfect Scrollbar">Employee Table</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'kpi-config' %}" class="menu-link">
+                                <div data-i18n="Text Divider">KPI Configuration</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'review-rating' %}" class="menu-link">
+                                <div data-i18n="Text Divider">Review Rating</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'supervisor' %}" class="menu-link">
+                                <div data-i18n="Text Divider">Supervisor</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'project' %}" class="menu-link">
+                                <div data-i18n="Text Divider">Project</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'sbu' %}" class="menu-link">
+                                <div data-i18n="Text Divider">SBU</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'sub-sbu' %}" class="menu-link">
+                                <div data-i18n="Text Divider">Sub SBU</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'kpi-objective' %}" class="menu-link">
+                                <div data-i18n="Text Divider">KPI Objective</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
         </aside>
         <!-- / Menu -->
         <!-- Layout container -->
@@ -266,37 +315,37 @@
 
             {% endblock %}
             <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-                <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                    <div class="mb-2 mb-md-0">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script>
-                        , made with ❤️ by
-                        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-                    </div>
-                    <div>
-                        <a href="https://themeselection.com/license/" class="footer-link me-4"
-                           target="_blank">License</a>
-                        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                        <a
-                                href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                                target="_blank"
-                                class="footer-link me-4"
-                        >Documentation</a
-                        >
-
-                        <a
-                                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                                target="_blank"
-                                class="footer-link me-4"
-                        >Support</a
-                        >
-                    </div>
-                </div>
-            </footer>
+{#            <footer class="content-footer footer bg-footer-theme">#}
+{#                <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">#}
+{#                    <div class="mb-2 mb-md-0">#}
+{#                        ©#}
+{#                        <script>#}
+{#                            document.write(new Date().getFullYear());#}
+{#                        </script>#}
+{#                        , made with ❤️ by#}
+{#                        <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>#}
+{#                    </div>#}
+{#                    <div>#}
+{#                        <a href="https://themeselection.com/license/" class="footer-link me-4"#}
+{#                           target="_blank">License</a>#}
+{#                        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>#}
+{##}
+{#                        <a#}
+{#                                href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"#}
+{#                                target="_blank"#}
+{#                                class="footer-link me-4"#}
+{#                        >Documentation</a#}
+{#                        >#}
+{##}
+{#                        <a#}
+{#                                href="https://github.com/themeselection/sneat-html-admin-template-free/issues"#}
+{#                                target="_blank"#}
+{#                                class="footer-link me-4"#}
+{#                        >Support</a#}
+{#                        >#}
+{#                    </div>#}
+{#                </div>#}
+{#            </footer>#}
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
