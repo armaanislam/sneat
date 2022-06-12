@@ -1,0 +1,124 @@
+{% extends 'main.html' %}
+{% load static %}
+{#{% load countries %}#}
+{% block content %}
+    <!-- Content wrapper -->
+    <div class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{#Account Settings /#}</span> Add Employee
+        </h4>
+        {% for msg in messages %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-4">
+                    <h5 class="card-header">Employee Details</h5>
+                    <hr class="my-0"/>
+                    <div class="card-body">
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.name.id_for_label }}"
+                                           class="form-label">{{ form.name.label }}</label>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            id="{{ form.name.id_for_label }}"
+                                            name="{{ form.name.html_name }}"
+                                            value=""
+                                            autofocus
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.employee_id.id_for_label }}"
+                                           class="form-label">{{ form.employee_id.label }}</label>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            id="{{ form.employee_id.id_for_label }}"
+                                            name="{{ form.employee_id.html_name }}"
+                                            value=""
+                                            placeholder="ex: 1001"
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.designation.id_for_label }}"
+                                           class="form-label">{{ form.designation.label }}</label>
+                                    <input
+                                            class="form-control"
+                                            type="text"
+                                            id="{{ form.designation.id_for_label }}"
+                                            name="{{ form.designation.html_name }}"
+                                            value=""
+                                            placeholder=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.basic_salary.id_for_label }}"
+                                           class="form-label">{{ form.basic_salary.label }}</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{{ form.basic_salary.id_for_label }}"
+                                            name="{{ form.basic_salary.html_name }}"
+                                            value=""
+                                    />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.sbu.id_for_label }}" class="form-label">SBU</label>
+                                    <select name="{{ form.sbu.html_name }}" id="{{ form.sbu.id_for_label }}"
+                                            value="{{ form.sbu.value }}" class="select2 form-select">
+                                        {% for widget in form.sbu.subwidgets %}
+                                            {{ widget }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.sub_sbu.id_for_label }}" class="form-label">Supervisor</label>
+                                    <select name="{{ form.sub_sbu.html_name }}" id="{{ form.sub_sbu.id_for_label }}"
+                                            value="{{ form.sub_sbu.value }}" class="select2 form-select">
+                                        {% for widget in form.sub_sbu.subwidgets %}
+                                            {{ widget }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                 <div class="mb-3 col-md-6">
+                                    <label for="{{ form.supervisor.id_for_label }}" class="form-label">Supervisor</label>
+                                    <select name="{{ form.supervisor.html_name }}" id="{{ form.supervisor.id_for_label }}"
+                                            value="{{ form.supervisor.value }}" class="select2 form-select">
+                                        {% for widget in form.supervisor.subwidgets %}
+                                            {{ widget }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="{{ form.project.id_for_label }}" class="form-label">Project</label>
+                                    <select name="{{ form.project.html_name }}" id="{{ form.project.id_for_label }}"
+                                            value="{{ form.project.value }}" class="select2 form-select">
+                                        {% for widget in form.project.subwidgets %}
+                                            {{ widget }}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                    <a href="{% url 'account-tables' %}">
+                                        <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                    </a>
+                                </div>
+                        </form>
+                    </div>
+                    <!-- /Account -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Content -->
+{% endblock %}

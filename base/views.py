@@ -9,7 +9,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
-from .forms import MyUserCreationForm
+from .forms import MyUserCreationForm, EmployeeForm, KpiConfigForm, ReviewRatingForm, SupervisorForm
 from .models import *
 from .helpers import send_forgot_password_mail
 import uuid
@@ -325,7 +325,7 @@ def kpiConfig(request):
     lists = KPIConfig.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/kpi-configuration.html', context)
+    return render(request, 'base/kpi-configuration-tables.html', context)
 
 
 
@@ -334,7 +334,7 @@ def project(request):
     lists = Project.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/project.html', context)
+    return render(request, 'base/project-tables.html', context)
 
 
 
@@ -343,7 +343,7 @@ def reviewRating(request):
     lists = ReviewRating.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/review-rating.html', context)
+    return render(request, 'base/review-rating-tables.html', context)
 
 
 
@@ -352,7 +352,7 @@ def sbu(request):
     lists = SBU.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/sbu.html', context)
+    return render(request, 'base/sbu-tables.html', context)
 
 
 
@@ -361,7 +361,7 @@ def subSBU(request):
     lists = SubSBU.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/sub-sbu.html', context)
+    return render(request, 'base/sub-sbu-tables.html', context)
 
 
 
@@ -370,7 +370,7 @@ def supervisor(request):
     lists = Supervisor.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/supervisor.html', context)
+    return render(request, 'base/supervisor-tables.html', context)
 
 
 
@@ -379,4 +379,162 @@ def kpiObjective(request):
     lists = KPIObjective.objects.all()
 
     context = {'lists': lists}
-    return render(request, 'base/kpi-objective.html', context)
+    return render(request, 'base/kpi-objective-tables.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def employeeAdd(request):
+
+    form = EmployeeForm()
+
+    if request.method == 'POST':
+        employee_id = request.POST.get('employee_id')
+        employee = Employee.objects.filter(employee_id=employee_id) #.get = error?
+        if employee.exists():
+            messages.error(request, 'Employee already exists!')
+            return redirect('employee-add')
+        else:
+            name = request.POST.get('name')
+            designation = request.POST.get('designation')
+            sbu = request.POST.get('sbu')
+            sub_sbu = request.POST.get('sub_sbu')
+            basic_salary = request.POST.get('basic_salary')
+            supervisor = request.POST.get('supervisor')
+            project = request.POST.get('project')
+
+            employee = Employee.objects.create(
+                name = name,
+                employee_id = employee_id,
+                designation = designation,
+                sbu = SBU.objects.get(id=sbu),
+                sub_sbu = SubSBU.objects.get(id=sub_sbu),
+                basic_salary = basic_salary,
+                supervisor = Supervisor.objects.get(id=supervisor),
+                project = Project.objects.get(id=project),
+                created_by = request.user,
+                updated_by = request.user
+            )
+            employee.save()
+            messages.success(request, 'New employee added!')
+            return redirect('employee-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/employee-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def kpiConfigAdd(request):
+
+    form = KpiConfigForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        shortlist = request.POST.get('shortlist')
+        kpiconfig = KPIConfig.objects.filter(shortlist=shortlist)
+
+        if kpiconfig.exists():
+            messages.error(request, 'Duplicate entry for shortlist')
+            return redirect('kpi-config-add')
+
+        else:
+            kpiconfig = KPIConfig.objects.create(
+                name = name,
+                shortlist = shortlist,
+                created_by = request.user,
+                updated_by=request.user,
+            )
+            kpiconfig.save()
+            messages.success(request, 'New configuration added!')
+            return redirect('kpi-config-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/kpi-configuration-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def reviewRatingAdd(request):
+
+    form = ReviewRatingForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        rating = request.POST.get('rating')
+        reviewrating = ReviewRating.objects.filter(rating=rating)
+
+        if reviewrating.exists():
+            messages.error(request, 'Duplicate entry for rating')
+            return redirect('review-rating-add')
+
+        else:
+            reviewrating = ReviewRating.objects.create(
+                name = name,
+                rating = rating,
+                created_by = request.user,
+                updated_by=request.user,
+            )
+            reviewrating.save()
+            messages.success(request, 'New rating added!')
+            return redirect('review-rating-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/review-rating-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def supervisorAdd(request):
+
+    form = SupervisorForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        supervisor = Supervisor.objects.create(
+            name = name,
+        )
+        supervisor.save()
+        messages.success(request, 'New supervisor added!')
+        return redirect('supervisor-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/supervisor-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def projectAdd(request):
+
+    form = SupervisorForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+            project = Project.objects.create(
+            name = name,
+        )
+        project.save()
+        messages.success(request, 'New supervisor added!')
+        return redirect('supervisor-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/supervisor-add.html', context)

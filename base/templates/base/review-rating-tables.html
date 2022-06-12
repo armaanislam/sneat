@@ -5,8 +5,8 @@
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Employee Table <span
-                    style="float: right"><a href="{% url 'account-add' %}" class="btn btn-secondary" role="button">Add Account</a></span>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{# Tables/ #}</span> Review Rating Table <span
+                    style="float: right"><a href="{% url 'review-rating-add' %}" class="btn btn-secondary" role="button">Add Rating</a></span>
             </h4>
             {% for msg in messages %}
                 <div class="alert alert-success alert-dismissible" role="alert">
@@ -22,6 +22,7 @@
                         <thead>
                         <tr class="text-nowrap">
                             <th>#</th>
+                            <th>Rating</th>
                             <th>Name</th>
                         </tr>
                         </thead>
@@ -29,6 +30,7 @@
                         {% for list in lists %}
                             <tr>
                                 <th scope="row">{{ list.id }}</th>
+                                <td>{{ list.rating }}</td>
                                 <td>{{ list.name }}</td>
                                 <td></td>
                             </tr>
