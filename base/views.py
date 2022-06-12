@@ -9,7 +9,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import check_password
-from .forms import MyUserCreationForm, EmployeeForm, KpiConfigForm, ReviewRatingForm, SupervisorForm
+from .forms import *
 from .models import *
 from .helpers import send_forgot_password_mail
 import uuid
@@ -505,6 +505,8 @@ def supervisorAdd(request):
         name = request.POST.get('name')
         supervisor = Supervisor.objects.create(
             name = name,
+            created_by=request.user,
+            updated_by=request.user,
         )
         supervisor.save()
         messages.success(request, 'New supervisor added!')
@@ -521,20 +523,96 @@ def supervisorAdd(request):
 @login_required(login_url='auth-login-basic')
 def projectAdd(request):
 
-    form = SupervisorForm()
+    form = ProjectForm()
 
     if request.method == 'POST':
 
         name = request.POST.get('name')
-            project = Project.objects.create(
+        project = Project.objects.create(
             name = name,
+            created_by=request.user,
+            updated_by=request.user,
         )
         project.save()
-        messages.success(request, 'New supervisor added!')
-        return redirect('supervisor-tables')
+        messages.success(request, 'New project added!')
+        return redirect('project-tables')
 
     else:
         messages.error(request, '')
 
     context = {'form': form}
-    return render(request, 'base/supervisor-add.html', context)
+    return render(request, 'base/project-add.html', context)
+
+
+@login_required(login_url='auth-login-basic')
+def sbuAdd(request):
+
+    form = SBUForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        sbu = SBU.objects.create(
+            name = name,
+            created_by=request.user,
+            updated_by=request.user,
+        )
+        sbu.save()
+        messages.success(request, 'New SBU added!')
+        return redirect('sbu-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/sbu-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def subSbuAdd(request):
+
+    form = SubSBUForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        subsbu = SubSBU.objects.create(
+            name = name,
+            created_by=request.user,
+            updated_by=request.user,
+        )
+        subsbu.save()
+        messages.success(request, 'New Sub SBU added!')
+        return redirect('sub-sbu-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/sub-sbu-add.html', context)
+
+
+
+@login_required(login_url='auth-login-basic')
+def kpiObjectiveAdd(request):
+
+    form = KpiObjectiveForm()
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name')
+        kpiobjective = KPIObjective.objects.create(
+            name = name,
+            created_by=request.user,
+            updated_by=request.user,
+        )
+        kpiobjective.save()
+        messages.success(request, 'New KPI Objective added!')
+        return redirect('kpi-objective-tables')
+
+    else:
+        messages.error(request, '')
+
+    context = {'form': form}
+    return render(request, 'base/kpi-objective-add.html', context)

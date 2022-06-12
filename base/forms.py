@@ -31,3 +31,27 @@ class SupervisorForm(ModelForm):
     class Meta:
         model = Supervisor
         fields = '__all__'
+
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+class SBUForm(ModelForm):
+    class Meta:
+        model = SBU
+        fields = '__all__'
+
+
+class SubSBUForm(ModelForm):
+    class Meta:
+        model = SubSBU
+        fields = '__all__'
+
+
+class KpiObjectiveForm(ModelForm):
+    class Meta:
+        model = KPIObjective
+        fields = '__all__'

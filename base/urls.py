@@ -41,5 +41,9 @@ urlpatterns = [
     path('kpi-config-add/', views.kpiConfigAdd, name='kpi-config-add'),
     path('review-rating-add/', views.reviewRatingAdd, name='review-rating-add'),
     path('supervisor-add/', views.supervisorAdd, name='supervisor-add'),
+    path('project-add/', views.projectAdd, name='project-add'),
+    path('sbu-add/', views.sbuAdd, name='sbu-add'),
+    path('sub-sbu-add/', views.subSbuAdd, name='sub-sbu-add'),
+    path('kpi-objective-add/', views.kpiObjectiveAdd, name='kpi-objective-add'),
 
 ]
